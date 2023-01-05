@@ -12,7 +12,7 @@ def setColours(colours):
         return
 
     ids = list(range(600, 610))
-    sticks = [sdk.get_led_colors_by_device_index(0, ids), sdk.get_led_colors_by_device_index(1, ids), sdk.get_led_colors_by_device_index(2, ids), sdk.get_led_colors_by_device_index(3, ids)]
+    sticks = [sdk.get_led_colors_by_device_index(i, ids) for i in range(0, 4)]
 
     for id, stick in enumerate(sticks):
         for led, item in enumerate(stick):
