@@ -17,5 +17,5 @@ KEYBOARD_WIDTH="the number of keys across the width of your keyboard"
 KEYBOARD_HEIGHT="the number of keys along the height of your keyboard"  
 
 Preview:  
-https://user-images.githubusercontent.com/19392527/210675398-8665474f-84a2-4e05-b349-0110919262ae.mp4
 
+https://user-images.githubusercontent.com/19392527/210676757-4e012a16-0cbf-43ff-a47f-52134a5efb69.mp4
