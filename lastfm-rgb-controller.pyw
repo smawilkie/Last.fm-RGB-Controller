@@ -21,7 +21,7 @@ def exit():
 
 
 if __name__ == "__main__":
-    icon = Icon("Chroma for Last.fm", title="Chroma for Last.fm", icon=Image.open("icon.ico"), menu=Menu(MenuItem("Exit", exit)))
+    icon = Icon("Last.fm RGB Controller", title="Last.fm RGB Controller", icon=Image.open("icon.ico"), menu=Menu(MenuItem("Exit", exit)))
     exitCode = 0
     icon.run_detached()
 
