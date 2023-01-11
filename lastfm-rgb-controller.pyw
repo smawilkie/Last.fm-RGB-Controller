@@ -23,16 +23,18 @@ def exit():
 if __name__ == "__main__":
     icon = Icon("Last.fm RGB Controller", title="Last.fm RGB Controller", icon=Image.open("icon.ico"), menu=Menu(MenuItem("Exit", exit)))
     exitCode = 0
+    mostRecentURL = ""
     icon.run_detached()
 
     cycle = 0
     while exitCode == 0:
         url = lastfm.getAlbumArtURL("init" if cycle == 0 else None)
-        if url is not None:
+        if url is not None and url != mostRecentURL:
+            mostRecentURL = url
             filename = lastfm.saveAlbumArt(url, width, height, 4)
             pixels = lastfm.showPixels(filename)
             razer.set(pixels, height, width)
-            nzxt.set(pixels)
+            nzxt.set(pixels, "super-wave", "normal")
             corsair.set(pixels)
 
         cycle = 1
