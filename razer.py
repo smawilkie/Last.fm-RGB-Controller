@@ -12,7 +12,7 @@ App = ChromaApp(Info)
 sleep(1)
 
 
-def set(pixels, height, width):
+def set(pixels: list, height: int, width: int):
     keyboardGrid = ChromaGrid("Keyboard")
     mouseGrid = ChromaGrid("Mouse")
     chromaLinkGrid = ChromaGrid("ChromaLink")
