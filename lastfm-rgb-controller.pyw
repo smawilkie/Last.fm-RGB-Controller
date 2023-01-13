@@ -34,7 +34,7 @@ if __name__ == "__main__":
             filename = lastfm.saveAlbumArt(url, width, height, 4)
             pixels = lastfm.showPixels(filename)
             razer.set(pixels, height, width)
-            nzxt.set(pixels, "super-wave", "normal")
+            nzxt.set(pixels, "super-wave", "slower")
             corsair.set(pixels)
 
         cycle = 1
