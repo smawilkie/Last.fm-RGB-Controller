@@ -26,8 +26,8 @@ def set(pixels: list, height: int, width: int):
         for y in range(0, width):
             keyboardGrid[x][y+1].set(*pixels[y,x])
 
-    mouseGrid[2][3].set(*pixels[8, 0])
-    mouseGrid[7][3].set(*pixels[8, 5])
+    mouseGrid[2][3].set(*pixels[16, 2])
+    mouseGrid[7][3].set(*pixels[16, 5])
 
     chromaLinkGrid[1].set(*pixels[1, 1])  # 1 = logo/top left (wraith prism)
     chromaLinkGrid[2].set(*pixels[8, 2])  # 2 = innner circle
@@ -77,11 +77,11 @@ def animate(pattern: int):
             App.Keyboard.applyGrid()
 
             mouseGrid = ChromaGrid("Mouse")
-            mouseGrid[2][3].set(*lights[3][2])
-            mouseGrid[7][3].set(*lights[3][7])
-
+            mouseGrid[2][3].set(*lights[2][16])
+            mouseGrid[7][3].set(*lights[5][16])
             App.Mouse.setCustomGrid(mouseGrid)
             App.Mouse.applyGrid()
+            
         sleep(0.12)
 
 
