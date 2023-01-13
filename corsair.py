@@ -33,17 +33,32 @@ def set(pixels: list):
    setColoursFromPixels(colours)
 
 
-def animate():
+def animate(pattern: int):
    global animationPaused
    while True:
       if not animationPaused:
          currentColours = sdk.get_led_colors(devices[0].device_id, [CorsairLedColor(id, None, None, None, None) for id in range(524289, 524329)])[0]
          currentColours = [(colour.r, colour.g, colour.b, colour.a) for colour in currentColours]
 
-         currentColours.insert(0, currentColours.pop())
+         match pattern:
+            case 1:  # pattern 1: move lights between sticks individually
+               currentColours.insert(0, currentColours.pop())
+
+            case 2:  # pattern 2: rows move
+               newLights = []
+               for i in range(4):
+                  newLights.append(currentColours[10*i:10*i+10])
+               for i in range(len(newLights)):
+                  newLights[i].append(newLights[i].pop(0))
+
+               currentColours = [j for sub in newLights for j in sub]
+
+            case 3:  # pattern 3: columns move
+               currentColours = currentColours[30:] + currentColours[0:31]
+
          setColoursFromPixels(currentColours)
       sleep(0.05)
 
 
-animation = threading.Thread(target=animate, daemon=True)
+animation = threading.Thread(target=animate, args=(2,), daemon=True)
 animation.start()
