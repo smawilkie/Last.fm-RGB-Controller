@@ -67,12 +67,13 @@ def animate(pattern: int):
                     lights.insert(0, lights.pop(-1))
 
                 case 3:  # pattern 3: columns move
-                    for index, row in enumerate(lights):
-                        lights[index].insert(1, lights[index].pop(-5))
+                    for i in range(len(lights)):
+                        lights[i].insert(1, lights[i].pop(-5))
 
             for x in range(0, 6):
                 for y in range(0, 22):
                     keyboardGrid[x][y].set(*lights[x][y])
+
             App.Keyboard.setCustomGrid(keyboardGrid)
             App.Keyboard.applyGrid()
 
@@ -82,7 +83,7 @@ def animate(pattern: int):
             App.Mouse.setCustomGrid(mouseGrid)
             App.Mouse.applyGrid()
             
-        sleep(0.12)
+        sleep(0.1)
 
 
 animation = threading.Thread(target=animate, args=(3,), daemon=True)
