@@ -12,7 +12,7 @@ if not os.path.exists("img"):
     os.makedirs("img")
 
 
-def getAlbumArtURL(mode: str = None) -> str:
+def getAlbumArtURL(mostRecentURL: str, mode: str = None) -> str:
     headers = {"user-agent": "Chroma for Last.fm"}
     url = "https://ws.audioscrobbler.com/2.0/"
 
@@ -35,7 +35,7 @@ def getAlbumArtURL(mode: str = None) -> str:
         album = trackInfo["album"]["#text"]
         print("Checking Lastfm...")
 
-        if mode == "init" or trackInfo.get("@attr").get("nowplaying") == "true":
+        if mode == "init" or trackInfo.get("@attr").get("nowplaying") == "true" or albumArtURL != mostRecentURL:
             print(f"Listening to: {artist} - {album}")
             return albumArtURL
         else:
