@@ -1,12 +1,17 @@
 from dotenv import load_dotenv
-import os
+import os, socket
 from PIL import Image
 from pystray import Icon, Menu, MenuItem
 from time import sleep
 import lastfm
 import razer
-import nzxt
-import corsair
+
+if socket.gethostname() == "Sam-W-PC":
+    import nzxt
+    import corsair
+
+if socket.gethostname() == "MSI":
+    import steelseries
 
 load_dotenv(".env")
 width = int(os.getenv("KEYBOARD_WIDTH"))
@@ -28,14 +33,19 @@ if __name__ == "__main__":
 
     cycle = 0
     while exitCode == 0:
-        url = lastfm.getAlbumArtURL("init" if cycle == 0 else None)
+        url = lastfm.getAlbumArtURL(mostRecentURL, "init" if cycle == 0 else None)
         if url is not None and url != mostRecentURL:
             mostRecentURL = url
             filename = lastfm.saveAlbumArt(url, width, height, 4)
             pixels = lastfm.showPixels(filename)
             razer.set(pixels, height, width)
-            nzxt.set(pixels, "super-wave", "slower")
-            corsair.set(pixels)
+
+            if socket.gethostname() == "Sam-W-PC":
+                nzxt.set(pixels, "super-wave", "slower")
+                corsair.set(pixels)
+
+            if socket.gethostname() == "MSI":
+                steelseries.set(pixels)
 
         cycle = 1
         sleep(0.5)
