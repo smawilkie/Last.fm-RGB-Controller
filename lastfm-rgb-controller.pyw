@@ -33,19 +33,26 @@ if __name__ == "__main__":
 
     cycle = 0
     while exitCode == 0:
-        url = lastfm.getAlbumArtURL(mostRecentURL, "init" if cycle == 0 else None)
-        if url is not None and url != mostRecentURL:
-            mostRecentURL = url
-            filename = lastfm.saveAlbumArt(url, width, height, 4)
-            pixels = lastfm.showPixels(filename)
-            razer.set(pixels, height, width)
+        sleep(0.5)
 
-            if socket.gethostname() == "Sam-W-PC":
-                nzxt.set(pixels, "super-wave", "slower")
-                corsair.set(pixels)
+        albumInfo = lastfm.getAlbumInfo(mostRecentURL, "init" if cycle == 0 else None)
 
-            if socket.gethostname() == "MSI":
-                steelseries.set(pixels)
+        if albumInfo is None:
+            continue
+
+        if albumInfo.artURL == mostRecentURL:
+            continue
+
+        mostRecentURL = albumInfo.artURL
+        filename = lastfm.saveAlbumArt(albumInfo, width, height, 4)
+
+        razer.set(filename, height, width)
+
+        if socket.gethostname() == "Sam-W-PC":
+            nzxt.set(filename, "super-wave", "slower")
+            corsair.set(filename)
+
+        if socket.gethostname() == "MSI":
+            steelseries.set(filename)
 
         cycle = 1
-        sleep(0.5)

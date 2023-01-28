@@ -12,7 +12,14 @@ if not os.path.exists("img"):
     os.makedirs("img")
 
 
-def getAlbumArtURL(mostRecentURL: str, mode: str = None) -> str:
+class AlbumInfo:
+    def __init__(self, artist, album, artURL):
+        self.artist = artist
+        self.album = album
+        self.artURL = artURL
+
+
+def getAlbumInfo(mostRecentURL: str, mode: str = None) -> str:
     headers = {"user-agent": "Chroma for Last.fm"}
     url = "https://ws.audioscrobbler.com/2.0/"
 
@@ -37,28 +44,32 @@ def getAlbumArtURL(mostRecentURL: str, mode: str = None) -> str:
 
         if mode == "init" or trackInfo.get("@attr").get("nowplaying") == "true" or albumArtURL != mostRecentURL:
             print(f"Listening to: {artist} - {album}")
-            return albumArtURL
+            return AlbumInfo(artist, album, albumArtURL)
         else:
             return None
     except:
         pass
 
 
-def saveAlbumArt(url: str, width: int, height: int, saturation: int = 1) -> str:
-    filename = url.split("/")[-1]
-    id = filename.split(".")[0]
+def saveAlbumArt(info: AlbumInfo, width: int, height: int, saturation: int = 1) -> str:
 
-    if not os.path.exists(f"img/{id}.png"):
-        imageData = requests.get(url).content
+    if not os.path.exists(f"img/{info.artist} - {info.album}"):
+        os.makedirs(f"img/{info.artist} - {info.album}")
+        imageData = requests.get(info.artURL).content
+
         with Image.open(io.BytesIO(imageData)) as image:
-            image = image.resize((width, height))
-            image = image.convert("RGB")
-            image = ImageEnhance.Color(image).enhance(saturation)
-            image.save(f"img/{id}.png")
 
-        print(f"New album, saved album art as img/{id}.png")
+            keyboardImage = image.resize((width, height)).convert("RGB")
+            keyboardImage = ImageEnhance.Color(keyboardImage).enhance(saturation)
+            keyboardImage.save(f"img/{info.artist} - {info.album}/{width}x{height}.png")
 
-    return f"img/{id}.png"
+            caseLEDImage = image.resize((10, 10)).convert("RGB")
+            caseLEDImage = ImageEnhance.Color(caseLEDImage).enhance(saturation)
+            caseLEDImage.save(f"img/{info.artist} - {info.album}/10x10.png")
+
+        print(f"New album, saved album art in img/{info.artist} - {info.album}")
+
+    return f"img/{info.artist} - {info.album}"
 
 
 def showPixels(filename: str) -> list:

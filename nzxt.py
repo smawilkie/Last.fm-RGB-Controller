@@ -1,4 +1,5 @@
 from liquidctl import find_liquidctl_devices
+from PIL import Image
 
 devices = find_liquidctl_devices()
 
@@ -14,8 +15,7 @@ def setColours(colours, mode, speed):
         lights.set_color(channel="led", mode=mode, colors=colours, speed=speed)
         
 
-
-def set(pixels: list, mode: str="super-fixed", speed: str="normal"):
-    colours = [pixels[0, 0], pixels[1, 0], pixels[3, 0], pixels[5, 0], pixels[7, 0], pixels[9, 0], pixels[11, 0], pixels[13, 0], pixels[15, 0], pixels[16, 0],
-               pixels[4, 1], pixels[5, 1], pixels[6, 2], pixels[7, 2], pixels[8, 3], pixels[9, 3], pixels[10, 4], pixels[11, 4], pixels[12, 5], pixels[13, 5]]
+def set(filename: str, mode: str="super-fixed", speed: str="normal"):
+    pixels = Image.open(f"{filename}/10x10.png").load()
+    colours = [pixels[i, 0] for i in range(0, 10)] + [pixels[5, i] for i in range(0, 10)]
     setColours(colours, mode, speed)

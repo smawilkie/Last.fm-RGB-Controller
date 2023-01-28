@@ -3,6 +3,7 @@ from os import getenv
 import threading
 from time import sleep
 from requests import Session, post
+from PIL import Image
 
 class CKL:
     def __init__(self):
@@ -137,7 +138,8 @@ class CKL:
 
 ckl = CKL()
 
-def set(pixels: list):
+def set(filename: str):
+    pixels = Image.open(f"{filename}/17x6.png").load()
     colours = []
     for y in range(6):
         currentRow = []
