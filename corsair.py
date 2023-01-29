@@ -28,7 +28,7 @@ def set(filename: str):
    global paused
    paused = True
    pixels = Image.open(f"{filename}/10x10.png").load()
-   colours = [pixels[i, j] for i in [0, 4, 5, 9] for j in range(9, -1, -1)]
+   colours = [pixels[i, j] for i in [0, 4, 7, 9] for j in range(9, -1, -1)]
 
    setColoursFromPixels(colours)
    paused = False
