@@ -46,6 +46,9 @@ if __name__ == "__main__":
         mostRecentURL = albumInfo.artURL
         filename = lastfm.saveAlbumArt(albumInfo, width, height, 4)
 
+        if filename is None:
+            continue
+
         razer.set(filename, height, width)
 
         if socket.gethostname() == "Sam-W-PC":

@@ -52,13 +52,20 @@ def getAlbumInfo(mostRecentURL: str, mode: str = None) -> str:
 
 
 def saveAlbumArt(info: AlbumInfo, width: int, height: int, saturation: int = 1) -> str:
+    for illegalSymbol in ["*", ".", "\"", "/", "\\", "[", "]", ":", ";", "|", ","]:
+        info.artist = info.artist.replace(illegalSymbol, "")
+        info.album = info.album.replace(illegalSymbol, "")
 
-    if not os.path.exists(f"img/{info.artist} - {info.album}"):
-        os.makedirs(f"img/{info.artist} - {info.album}")
+    if not os.path.exists(f"img/{info.artist} - {info.album}") and info.artURL is not None:
         imageData = requests.get(info.artURL).content
 
-        with Image.open(io.BytesIO(imageData)) as image:
+        if len(imageData) == 0:
+            print("Album art download failed")
+            return None
 
+        os.makedirs(f"img/{info.artist} - {info.album}")
+
+        with Image.open(io.BytesIO(imageData)) as image:
             keyboardImage = image.resize((width, height)).convert("RGB")
             keyboardImage = ImageEnhance.Color(keyboardImage).enhance(saturation)
             keyboardImage.save(f"img/{info.artist} - {info.album}/{width}x{height}.png")
@@ -70,9 +77,3 @@ def saveAlbumArt(info: AlbumInfo, width: int, height: int, saturation: int = 1) 
         print(f"New album, saved album art in img/{info.artist} - {info.album}")
 
     return f"img/{info.artist} - {info.album}"
-
-
-def showPixels(filename: str) -> list:
-    image = Image.open(filename)
-    pixels = image.load()
-    return pixels
