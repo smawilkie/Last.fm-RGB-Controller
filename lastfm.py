@@ -69,7 +69,7 @@ def saveAlbumArt(info: AlbumInfo, keyboardWidth: int, keyboardHeight: int, satur
             for (width, height) in [(keyboardWidth, keyboardHeight), (10, 10), (15, 6)]:
                 tempImage = image.resize((width, height)).convert("RGB")
                 tempImage = ImageEnhance.Color(tempImage).enhance(saturation)
-                tempImage.save(f"img/{info.artist} - {info.album}/{w}x{h}.png")
+                tempImage.save(f"img/{info.artist} - {info.album}/{width}x{height}.png")
 
         print(f"New album, saved album art in img/{info.artist} - {info.album}")
 
