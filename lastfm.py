@@ -51,7 +51,7 @@ def getAlbumInfo(mostRecentURL: str, mode: str = None) -> str:
         pass
 
 
-def saveAlbumArt(info: AlbumInfo, width: int, height: int, saturation: int = 1) -> str:
+def saveAlbumArt(info: AlbumInfo, keyboardWidth: int, keyboardHeight: int, saturation: int = 1) -> str:
     for illegalSymbol in ["*", ".", "\"", "/", "\\", "[", "]", ":", ";", "|", ","]:
         info.artist = info.artist.replace(illegalSymbol, "")
         info.album = info.album.replace(illegalSymbol, "")
@@ -66,13 +66,10 @@ def saveAlbumArt(info: AlbumInfo, width: int, height: int, saturation: int = 1) 
         os.makedirs(f"img/{info.artist} - {info.album}")
 
         with Image.open(io.BytesIO(imageData)) as image:
-            keyboardImage = image.resize((width, height)).convert("RGB")
-            keyboardImage = ImageEnhance.Color(keyboardImage).enhance(saturation)
-            keyboardImage.save(f"img/{info.artist} - {info.album}/{width}x{height}.png")
-
-            caseLEDImage = image.resize((10, 10)).convert("RGB")
-            caseLEDImage = ImageEnhance.Color(caseLEDImage).enhance(saturation)
-            caseLEDImage.save(f"img/{info.artist} - {info.album}/10x10.png")
+            for (width, height) in [(keyboardWidth, keyboardHeight), (10, 10), (15, 6)]:
+                tempImage = image.resize((width, height)).convert("RGB")
+                tempImage = ImageEnhance.Color(tempImage).enhance(saturation)
+                tempImage.save(f"img/{info.artist} - {info.album}/{w}x{h}.png")
 
         print(f"New album, saved album art in img/{info.artist} - {info.album}")
 

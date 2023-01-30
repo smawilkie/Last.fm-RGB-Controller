@@ -88,13 +88,12 @@ class CKL:
 ckl = CKL()
 
 def set(filename: str):
-    pixels = Image.open(f"{filename}/17x6.png").load()
+    pixels = Image.open(f"{filename}/15x6.png").load()
     colours = []
     for y in range(6):
         currentRow = []
-        for x in range(17):
-            if x != 1 and x != 15:
-                currentRow.append(pixels[x, y])
+        for x in range(15):
+            currentRow.append(pixels[x, y])
         colours.append(currentRow)
     ckl.outline = colours
     ckl.setLightingArray()
